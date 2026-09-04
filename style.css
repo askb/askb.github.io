@@ -1,0 +1,148 @@
+@font-face{font-family:'Archivo';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/Archivo-600.woff2') format('woff2')}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:700;font-display:swap;src:url('fonts/Archivo-700.woff2') format('woff2')}
+@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/SpaceGrotesk-400.woff2') format('woff2')}
+@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/SpaceGrotesk-500.woff2') format('woff2')}
+
+/* ── tokens ─────────────────────────────────────────────────
+   Palette: white + muted gold. #A16207 is a deep ochre, not metallic
+   gold — true #D4AF37 fails contrast on white at 1.9:1. Warm stone
+   neutrals throughout so borders sit with the accent, not against it.
+   Verified: fg/bg 17.9:1, muted/bg 7.6:1, button 4.9:1 (AA).
+   ───────────────────────────────────────────────────────────── */
+:root {
+  --fg: #171717; --bg: #ffffff; --card: #fafaf9;
+  --muted-fg: #57534e; --border: #e7e5e4;
+  --accent: #a16207; --on-accent: #ffffff;
+  --sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --display: 'Archivo', var(--sans);
+  --wrap: 68rem;
+  --gap: clamp(3.5rem, 8vw, 7rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg: #fafaf9; --bg: #0c0a09; --card: #1c1917;
+    --muted-fg: #a8a29e; --border: #292524;
+    --accent: #d9a441; --on-accent: #0c0a09;
+  }
+}
+
+/* ── base ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 clamp(1rem, .96rem + .2vw, 1.0625rem)/1.65 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  text-underline-offset: .2em;
+}
+h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+p { margin: 0; text-wrap: pretty; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+.wrap { width: min(100% - 2.5rem, var(--wrap)); margin-inline: auto; }
+.skip {
+  position: absolute; left: -9999px;
+  background: var(--accent); color: var(--on-accent);
+  padding: .75rem 1rem; border-radius: 0 0 .5rem 0; z-index: 10;
+}
+.skip:focus { left: 0; top: 0; }
+
+/* ── header ─────────────────────────────────────────────── */
+.site {
+  position: sticky; top: 0; z-index: 5;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.bar { display: flex; align-items: center; justify-content: space-between; min-height: 4rem; }
+.mark {
+  font: 700 .8125rem/1 var(--display); letter-spacing: .16em;
+  border: 1px solid var(--fg); padding: .5rem .6rem; border-radius: .3rem;
+}
+.site nav { display: flex; gap: .25rem; }
+.site nav a {
+  padding: .6rem .8rem; border-radius: .4rem;
+  font-size: .9375rem; color: var(--muted-fg); text-decoration: none;
+  transition: color .2s ease, background-color .2s ease;
+}
+.site nav a:hover { color: var(--fg); background: var(--card); }
+
+/* ── sections ───────────────────────────────────────────── */
+section { padding-block: var(--gap); }
+section + section { border-top: 1px solid var(--border); }
+.eyebrow {
+  font-size: .75rem; font-weight: 500; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--muted-fg); margin-bottom: .75rem;
+}
+h2 { font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.125rem); margin-bottom: 2.5rem; }
+
+/* ── hero ───────────────────────────────────────────────── */
+.hero { padding-block: clamp(4rem, 9vw, 8rem); }
+.hero h1 { font-size: clamp(2.75rem, 1.9rem + 4.2vw, 5rem); }
+.role {
+  font-family: var(--display); font-weight: 600;
+  font-size: clamp(1.0625rem, 1rem + .45vw, 1.375rem);
+  color: var(--muted-fg); margin-top: .5rem;
+}
+.lede {
+  font-size: clamp(1.1875rem, 1.1rem + .55vw, 1.5rem);
+  line-height: 1.45; margin-top: 2rem; max-width: 34ch;
+}
+.bio { margin-top: 1.25rem; max-width: 60ch; color: var(--muted-fg); }
+.bio strong { color: var(--fg); font-weight: 500; }
+
+.actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2.5rem; }
+.btn {
+  display: inline-flex; align-items: center; min-height: 2.75rem;
+  padding: .7rem 1.35rem; border-radius: .5rem;
+  background: var(--accent); color: var(--on-accent);
+  border: 1px solid var(--accent);
+  font-weight: 500; font-size: .9375rem; text-decoration: none;
+  cursor: pointer; transition: opacity .2s ease, background-color .2s ease, border-color .2s ease;
+}
+.btn:hover { opacity: .88; }
+.btn.ghost { background: transparent; color: var(--fg); border-color: var(--border); }
+.btn.ghost:hover { border-color: var(--fg); opacity: 1; }
+
+/* ── cards ──────────────────────────────────────────────── */
+.cards {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+}
+.cards li {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: .75rem; padding: 1.75rem;
+}
+.cards h3 { font-size: 1.0625rem; margin-bottom: .75rem; }
+.cards p { color: var(--muted-fg); font-size: .9375rem; }
+
+/* ── skills ─────────────────────────────────────────────── */
+.skills { margin: 0; display: grid; gap: 0; }
+.skills > div {
+  display: grid; gap: .35rem 2rem; padding-block: 1.15rem;
+  border-bottom: 1px solid var(--border);
+}
+.skills > div:first-child { border-top: 1px solid var(--border); }
+@media (min-width: 46rem) { .skills > div { grid-template-columns: 12rem 1fr; align-items: baseline; } }
+dt { font-family: var(--display); font-weight: 600; font-size: .9375rem; }
+dd { margin: 0; color: var(--muted-fg); font-size: .9375rem; }
+
+/* ── contact ────────────────────────────────────────────── */
+.links { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: .9rem; }
+.links a {
+  font-family: var(--display); font-weight: 600;
+  font-size: clamp(1.0625rem, 1rem + .4vw, 1.25rem);
+  text-decoration-color: var(--border); transition: text-decoration-color .2s ease;
+}
+.links a:hover { text-decoration-color: var(--accent); }
+
+/* ── footer ─────────────────────────────────────────────── */
+footer { border-top: 1px solid var(--border); padding-block: 2.5rem; }
+footer p { color: var(--muted-fg); font-size: .875rem; }
